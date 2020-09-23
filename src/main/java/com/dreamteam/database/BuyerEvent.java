@@ -26,7 +26,7 @@ public class BuyerEvent {
         String buyerEvent = "";
         buyerEvent += ("Date: " + date + "\n");
         buyerEvent += ("Email: " + email + "\n");
-        buyerEvent += ("Shipping Address: " + shipping_address + "\n");
+        buyerEvent += ("Address: " + shipping_address + "\n");
         buyerEvent += ("Product ID: " + product_id + "\n");
         buyerEvent += ("Quantity Purchased: " + quantity);
 
@@ -86,7 +86,7 @@ public class BuyerEvent {
         scanner.nextLine(); //This skips the header row in the csv file
 
         //Reads corresponding input fields from buyerEvent csv and assigns them to object
-        //Object then updates database, and then stores order information in a new orderHistory csv file
+        //Object updates database, and then stores order information in orderHistory csv file
         String[] data_row;
         int count = 0;
         while(scanner.hasNextLine()){
@@ -101,10 +101,10 @@ public class BuyerEvent {
             Date time = new Date();
             event.time = format.format(time);
 
-            count++;
             System.out.println("Processing Customer Order #" + count + "... ");
             updateQuantity(event);
             createOrder(event);
+            count++;
         }
 
         //Prints out the total number of Buyer Events and closes program
