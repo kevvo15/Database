@@ -15,7 +15,7 @@ public class BuyerEvent {
     protected String product_id;
     protected int quantity;
     protected String time;
-    private static final Database DATABASE = new Database(6);
+    private static final Database DATABASE = new Database(5);
 
     //Empty constructor
     public BuyerEvent(){
@@ -26,7 +26,7 @@ public class BuyerEvent {
         String buyerEvent = "";
         buyerEvent += ("Date: " + date + "\n");
         buyerEvent += ("Email: " + email + "\n");
-        buyerEvent += ("Shipping Address: " + shipping_address + "\n");
+        buyerEvent += ("Address: " + shipping_address + "\n");
         buyerEvent += ("Product ID: " + product_id + "\n");
         buyerEvent += ("Quantity Purchased: " + quantity);
 
@@ -79,15 +79,14 @@ public class BuyerEvent {
         //This creates the csv file that the following buyerEvents will be stored into
         OrderHistory.generateCsvFile();
 
-        System.out.println("");
-        System.out.println("Buyer Event Simulation Initiated...\n");
+        System.out.println("\nBuyer Event Simulation Initiated...\n");
 
         BuyerEvent event = new BuyerEvent(); //Each buyer event (line of data in csv file) is stored as an object
 
         scanner.nextLine(); //This skips the header row in the csv file
 
         //Reads corresponding input fields from buyerEvent csv and assigns them to object
-        //Object then updates database, and then stores order information in a new orderHistory csv file
+        //Object updates database, then stores order information in orderHistory csv file
         String[] data_row;
         int count = 0;
         while(scanner.hasNextLine()){
@@ -97,15 +96,16 @@ public class BuyerEvent {
             event.shipping_address = data_row[2];
             event.product_id = data_row[3];
             event.quantity = Integer.parseInt(data_row[4]);
-
+            
+            //Time of event is based on when the program is run, this can change if we add hard-coded values into buyerEvent csv
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
             Date time = new Date();
             event.time = format.format(time);
 
-            count++;
             System.out.println(event.toString());
             updateQuantity(event);
             createOrder(event);
+            count++;
         }
 
         //Prints out the total number of Buyer Events and closes program
